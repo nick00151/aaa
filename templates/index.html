@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic</title>
-    <link rel="stylesheet" type="text/css" href="../static/all.css">
+  <meta charset="UTF-8">
+  <title>QA 系統</title>
 </head>
 <body>
-    <div class="container"></div>
-    <script src="../static/index.js"></script>
+  <h1>使用者端QA系統</h1>
+  <input type="text" id="question" placeholder="請輸入您的問題">
+  <button onclick="askQuestion()">送出</button>
+  <p id="answer">回答將顯示於此</p>
+
+  <script>
+    async function askQuestion() {
+      const question = document.getElementById("question").value;
+      const response = await fetch("/api/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: question })
+      });
+      const data = await response.json();
+      document.getElementById("answer").innerText = data.answer;
+    }
+  </script>
 </body>
 </html>
